@@ -46,14 +46,28 @@ public void actionPerformed(ActionEvent e) {
 		save();
 	}
 	if(e.getSource().equals(load)) {
-		
+		try {
+			FileReader fr = new FileReader("src/programs/SaveTasks.txt");
+			int a = fr.read();
+			String s = "";
+			while(a != -1) {
+				s += (char)a;
+				a = fr.read();
+			}
+			saveList.add(s);
+			System.out.println(s);
+			System.out.println(saveList);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	if(e.getSource().equals(remove)) {
 		String sTemp = JOptionPane.showInputDialog("Enter An ID:");
 		if(sTemp.equalsIgnoreCase("All")){
 			saveList.clear();
 		} else {
-			
+			saveList.remove(sTemp);
 		}
 	}
 	if(e.getSource().equals(add)) {
@@ -63,8 +77,12 @@ public void actionPerformed(ActionEvent e) {
 }
 public void save(){
 	try {
-		FileWriter fw = new FileWriter("src/programs/SaveTasks.java");
-		fw.write("" + saveList);
+		FileWriter fw = new FileWriter("src/programs/SaveTasks.txt");
+		String s = "";
+		for(String t : saveList) {
+			s += t + ", ";
+		}
+		fw.write(s);
 		fw.close();
 		
 	} catch (IOException e) {
